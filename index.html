@@ -1,48 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>一般常識クイズ</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="container">
-
-    <!-- スタート画面 -->
-    <div id="start-screen" class="screen">
-      <div class="icon">?</div>
-      <h1>一般常識クイズ</h1>
-      <p class="description">全10問・4択形式のクイズに挑戦しよう！</p>
-      <button id="start-btn" class="btn btn-primary">スタート</button>
-    </div>
-
-    <!-- 問題画面 -->
-    <div id="question-screen" class="screen hidden">
-      <div class="progress-bar-wrap">
-        <div id="progress-bar" class="progress-bar"></div>
-      </div>
-      <div class="meta">
-        <span id="question-number">問題 1 / 5</span>
-        <span id="score-display">スコア: 0</span>
-      </div>
-      <p id="question-text" class="question-text"></p>
-      <div id="options" class="options"></div>
-      <div id="feedback" class="feedback hidden"></div>
-      <button id="next-btn" class="btn btn-primary hidden">次の問題へ</button>
-    </div>
-
-    <!-- 結果画面 -->
-    <div id="result-screen" class="screen hidden">
-      <h2>クイズ終了！</h2>
-      <div class="result-card">
-        <p id="result-score" class="result-score"></p>
-        <p id="result-message" class="result-message"></p>
-      </div>
-      <button id="restart-btn" class="btn btn-primary">もう一度挑戦する</button>
-    </div>
-
-  </div>
-  <script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>タスクボード</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
