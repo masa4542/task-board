@@ -4,25 +4,36 @@
 
 ## プロジェクト概要
 
-**quiz-app** — バニラHTML/CSS/JavaScriptで構築された一般常識クイズアプリ。ビルドツール・フレームワーク・依存パッケージなし。
+**task-board** — React + Vite で構築されたタスクボードアプリ。タスクの追加・完了切り替え・削除ができ、localStorage でデータを永続化する。
+
+## デプロイ先
+
+https://masa4542.github.io/task-board/
+
+ローカル開発サーバー: `http://localhost:5173`
 
 ## 技術スタック
 
-- HTML5
-- CSS3
-- JavaScript (ES6+、バニラ)
-- 外部ライブラリ・フレームワークなし
+- **React 18** — UIコンポーネント・状態管理（`useState` / `useEffect`）
+- **Vite 5** — ビルドツール・開発サーバー
+- **CSS3** — コンポーネントごとのスタイル（`App.css`）
+- **localStorage** — タスクデータの永続化
+- **gh-pages** — GitHub Pages へのデプロイ
 
 ## 開発コマンド
 
-ビルドステップは不要。ブラウザで直接 `index.html` を開くか、ローカルサーバーを起動する。
-
 ```bash
-# Python でローカルサーバー起動（任意）
-python -m http.server 8080
+# 依存パッケージのインストール
+npm install
 
-# Node.js の場合
-npx serve .
+# 開発サーバー起動（ホットリロードあり）
+npm run dev
+
+# プロダクションビルド（dist/ に出力）
+npm run build
+
+# GitHub Pages へデプロイ（build → gh-pages ブランチへ push）
+npm run deploy
 ```
 
 ## アーキテクチャ
@@ -30,46 +41,49 @@ npx serve .
 ### ファイル構成
 
 ```
-quiz-app/
-├── CLAUDE.md         # このファイル
-├── index.html        # エントリーポイント・クイズUI
-├── style.css         # スタイル定義
-└── script.js         # クイズロジック・状態管理
+task-board/
+├── CLAUDE.md
+├── index.html              # Vite エントリーポイント
+├── vite.config.js          # base: '/task-board/' を設定
+├── package.json
+└── src/
+    ├── main.jsx            # ReactDOM.createRoot のマウント
+    ├── App.jsx             # メインコンポーネント（状態・ロジック）
+    └── App.css             # スタイル定義
 ```
 
 ### 状態管理
 
-`script.js` 内でクイズの状態（現在の問題番号・スコア・選択した回答）をグローバル変数またはオブジェクトで管理する。localStorage を使う場合はスコア履歴の永続化に限定する。
-
-### クイズデータ形式
-
-問題データは `script.js` 内の配列オブジェクトとして定義する。各問題は以下の形式：
+`App.jsx` 内で `useState` を使い、タスク一覧（`tasks`）と入力テキスト（`inputText`）を管理する。
 
 ```js
-{
-  question: "問題文",
-  options: ["選択肢A", "選択肢B", "選択肢C", "選択肢D"],
-  answer: 0  // 正解のインデックス（0始まり）
-}
+// タスクの型
+{ id: number, text: string, completed: boolean }
 ```
 
-### UI フロー
+`useEffect` で `tasks` の変化を監視し、`localStorage` へ自動保存する。初期値は `localStorage` から復元する。
 
-`index.html` は単一ページ構成。JavaScriptで表示セクションを切り替える。
+### コンポーネント構成
 
-- **スタート画面** — タイトルと「スタート」ボタン
-- **問題画面** — 問題文・選択肢・進捗表示
-- **結果画面** — スコア表示と「もう一度」ボタン
+現時点では単一コンポーネント構成。機能追加でコンポーネントを分割する場合は `src/components/` ディレクトリに配置する。
 
-セクションの切り替えは `display` プロパティの操作を基本とする。
+## コンポーネント命名規約
+
+| 対象 | 規約 | 例 |
+|---|---|---|
+| コンポーネントファイル | PascalCase + `.jsx` | `TaskItem.jsx` |
+| コンポーネント関数 | PascalCase | `function TaskItem()` |
+| CSS クラス | kebab-case | `.task-item`, `.delete-btn` |
+| state 変数 | camelCase | `inputText`, `tasks` |
+| イベントハンドラ | `handle` + 動詞 | `handleKeyDown`, `handleSubmit` |
 
 ## コーディング規約
 
 - インデントは **スペース2文字**
 - セミコロンあり
 - `const` / `let` を使用し、`var` は使わない
-- DOM操作は `document.getElementById` または `document.querySelector` を使用
 - コメントは日本語で記述する
+- コンポーネントは関数宣言（`function` キーワード）で定義する
 
 ## Git 運用ルール
 
